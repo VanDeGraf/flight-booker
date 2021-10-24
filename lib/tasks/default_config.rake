@@ -25,8 +25,16 @@ namespace :default_config do
     puts "Successfully set default webpack config!"
   end
 
-  desc "TODO"
+  desc "Install Bootstrap from npm, set requires in entry files"
   task :install_bootstrap do
+    return unless run_command_list([
+                       %{ npm install bootstrap }
+                     ])
+    add_in_file("app/frontend/entry", "application.scss", [
+      "@import \"~bootstrap\";"
+    ])
+
+    puts "Successfully install Bootstrap and ready to use it!"
   end
 
   desc "TODO"
@@ -39,18 +47,12 @@ namespace :default_config do
 
   desc "Run all commands of this namespace in right order"
   task :install_all do
-    [
-      %{ rails default_config:set_webpack_config },
-      %{ rails default_config:install_bootstrap },
-      %{ rails default_config:install_simple_form },
-      %{ rails default_config:install_devise },
-    ].each do |command|
-      unless run_command(command)
-        puts "Interrupted install, please continue manually!"
-        return
-      end
-    end
-    puts "Successfully install all default configs!"
+    run_command_list([
+                       %{ rails default_config:set_webpack_config },
+                       %{ rails default_config:install_bootstrap },
+                       %{ rails default_config:install_simple_form },
+                       %{ rails default_config:install_devise },
+                     ], success_msg: "Successfully install all default configs!")
   end
 
   # @return [Boolean]
@@ -62,6 +64,19 @@ namespace :default_config do
       end
     end
     return true
+  end
+
+  # @param list [Array]
+  # @return [Boolean]
+  def run_command_list(list, success_msg: "")
+    list.each do |command|
+      unless run_command(command)
+        puts "Interrupted, please continue manually!"
+        return false
+      end
+    end
+    puts success_msg unless success_msg.empty?
+    true
   end
 
   # @param relative_parent_path [String]
@@ -79,6 +94,29 @@ namespace :default_config do
           replacement_counter += 1
           replace
         end
+      end
+      content
+    end)
+    unless replacement_counter.zero?
+      puts "#{relative_parent_path}/#{filename}: updated #{replacement_counter} times "
+    end
+  end
+
+  # @param strings [Array<String>]
+  def add_in_file(relative_parent_path, filename, strings)
+    filepath = "#{Dir.pwd}/#{relative_parent_path}/#{filename}"
+    return unless File.exist?(filepath)
+
+    replacement_counter = 0
+    IO.write(filepath, File.open(filepath) do |f|
+      content = f.read
+      strings.each do |s|
+        re = Regexp.new("^#{Regexp.escape(s)}$")
+        next unless content[re, 0].nil?
+
+        value = ((content.length.zero? || content[-1].eql?("\n")) ? s : "\n#{s}") + "\n"
+        content += value
+        replacement_counter += 1
       end
       content
     end)
