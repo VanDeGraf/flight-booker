@@ -48,8 +48,23 @@ namespace :default_config do
                      ], success_msg: "Successfully install SimpleForms")
   end
 
-  desc "TODO"
+  desc "Install devise gem and default configure it, generate default views"
   task :install_devise do
+    add_in_file("", "Gemfile", [
+      "gem 'devise'"
+    ])
+    return unless run_command_list([
+                                     %{ bundle install },
+                                     %{ rails generate devise:install }
+                                   ])
+    replace_in_file("config/environments", "development.rb", {
+      /Rails\.application\.configure do\n/ => "Rails.application.configure do\n" +
+        "config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }"
+    })
+    return unless run_command_list([
+                                     %{ rails generate devise:views }
+                                   ])
+    puts "Successfully install Devise!"
   end
 
   desc "Run all commands of this namespace in right order"
