@@ -28,8 +28,8 @@ namespace :default_config do
   desc "Install Bootstrap from npm, set requires in entry files"
   task :install_bootstrap do
     return unless run_command_list([
-                       %{ npm install bootstrap }
-                     ])
+                                     %{ npm install bootstrap }
+                                   ])
     add_in_file("app/frontend/entry", "application.scss", [
       "@import \"~bootstrap\";"
     ])
@@ -37,8 +37,15 @@ namespace :default_config do
     puts "Successfully install Bootstrap and ready to use it!"
   end
 
-  desc "TODO"
+  desc "Install simple_form gem with integrated to the Bootstrap"
   task :install_simple_form do
+    add_in_file("", "Gemfile", [
+      "gem 'simple_form'"
+    ])
+    run_command_list([
+                       %{ bundle install },
+                       %{ rails generate simple_form:install --bootstrap }
+                     ], success_msg: "Successfully install SimpleForms")
   end
 
   desc "TODO"
