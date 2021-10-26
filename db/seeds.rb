@@ -31,5 +31,10 @@ def utc_offset_to_s(offset_in_h)
 end
 
 create_flight(a1, a4, "20211210T2355", "20211211T1655")
+create_flight(a1, a4, "20211210T2355", "20211211T1655")
+create_flight(a1, a4, "20211210T1925", "20211211T1325")
+create_flight(a1, a4, "20211210T1455", "20211211T0955")
+create_flight(a1, a4, "20211210T1025", "20211211T0525")
+create_flight(a1, a4, "20211210T0655", "20211211T0155")
 create_flight(a4, a1, "20211101T1455", "20211101T1820")
 create_flight(a1, a2, "20211201T0900", "20211202T1400")

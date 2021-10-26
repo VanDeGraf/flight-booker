@@ -14,12 +14,14 @@
     <br>
     <span>Date:</span>
     <%= select_tag "departing_date",
-                   options_from_collection_for_select(Flight.all, :departing_date_formatted, :departing_date_formatted,
+                   options_from_collection_for_select(Flight.departing_dates, :departing_date, :departing_date,
                                                       selected: @search_params.departing_date_formatted) %>
     <br>
     <%= f.submit value: "Search" %>
   <% end %>
 </div>
+
+
 
 <% unless @flights.nil? %>
   <div class="container bg-light shadow-sm rounded m-5 py-2">
@@ -27,13 +29,17 @@
     <% if @flights.count.zero? %>
       <h5>Nothing :(</h5>
     <% else %>
-      <ul class="list-group">
-        <% @flights.each do |flight| %>
-          <li class="list-group-item">
-            id: <%= flight.id %>
-          </li>
-        <% end %>
-      </ul>
+      <%= simple_form_for @search_params, url: root_path do |f| %>
+        <ul class="list-group">
+          <%= f.collection_radio_buttons :flights, @search_params.flights, :id, :id do |b| %>
+            <li class="list-group-item">
+              <%= b.label(:"data-value" => b.value) { b.radio_button + b.text.to_s } %>
+            </li>
+          <% end %>
+          <%= f.input :passengers, as: :hidden %>
+          <%= f.submit value: "Booking on this date" %>
+        </ul>
+      <% end %>
     <% end %>
   </div>
 <% end %>
