@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_25_152253) do
+ActiveRecord::Schema.define(version: 2021_10_26_165947) do
 
   create_table "airports", force: :cascade do |t|
     t.string "name"
@@ -32,6 +32,19 @@ ActiveRecord::Schema.define(version: 2021_10_25_152253) do
     t.index ["to_airport_id"], name: "index_flights_on_to_airport_id"
   end
 
+  create_table "params_searches", force: :cascade do |t|
+    t.date "departing_date"
+    t.integer "passengers", default: 1
+    t.integer "from_airport_id"
+    t.integer "to_airport_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["from_airport_id"], name: "index_params_searches_on_from_airport_id"
+    t.index ["to_airport_id"], name: "index_params_searches_on_to_airport_id"
+  end
+
   add_foreign_key "flights", "airports", column: "from_airport_id"
   add_foreign_key "flights", "airports", column: "to_airport_id"
+  add_foreign_key "params_searches", "airports", column: "from_airport_id"
+  add_foreign_key "params_searches", "airports", column: "to_airport_id"
 end

@@ -18,4 +18,9 @@ class Flight < ApplicationRecord
   def arriving_time_local(utc_offset = to_airport.timezone)
     arriving_time.localtime(utc_offset * 3600)
   end
+
+  # @return [String]
+  def departing_date_formatted
+    departing_time.strftime("%d/%m/%Y")
+  end
 end

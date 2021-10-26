@@ -1,0 +1,39 @@
+<div class="container bg-light shadow-sm rounded m-5 py-2">
+  <%= simple_form_for @search_params, url: root_path, method: "get" do |f| %>
+    <span>From:</span>
+    <%= select_tag "from_airport",
+                   options_from_collection_for_select(Airport.all, :id, :name,
+                                                      selected: @search_params.from_airport_id) %>
+    <span>To:</span>
+    <%= select_tag "to_airport",
+                   options_from_collection_for_select(Airport.all, :id, :name,
+                                                      selected: @search_params.to_airport_id) %>
+    <br>
+    <span>Passengers:</span>
+    <%= select_tag "passengers", options_for_select([1, 2, 3, 4], @search_params.passengers) %>
+    <br>
+    <span>Date:</span>
+    <%= select_tag "departing_date",
+                   options_from_collection_for_select(Flight.all, :departing_date_formatted, :departing_date_formatted,
+                                                      selected: @search_params.departing_date_formatted) %>
+    <br>
+    <%= f.submit value: "Search" %>
+  <% end %>
+</div>
+
+<% unless @flights.nil? %>
+  <div class="container bg-light shadow-sm rounded m-5 py-2">
+    <h3 align="center">Founded</h3>
+    <% if @flights.count.zero? %>
+      <h5>Nothing :(</h5>
+    <% else %>
+      <ul class="list-group">
+        <% @flights.each do |flight| %>
+          <li class="list-group-item">
+            id: <%= flight.id %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+<% end %>
