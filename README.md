@@ -11,7 +11,6 @@ This project is part of [The Odin Project Curriculum](https://www.theodinproject
 ### Requirements
 * gems:
     * **rails** >= 6
-    * **devise** >= 4
     * **simple_form**
 * npm packages:
     * **bootstrap** >= 5
