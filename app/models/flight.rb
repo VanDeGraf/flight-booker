@@ -7,7 +7,7 @@ class Flight < ApplicationRecord
     find_by_sql("SELECT DISTINCT(strftime('%d/%m/%Y', departing_time)) as departing_date FROM \"flights\"")
   }
 
-  def travel_time_hours
+  def travel_time
     elapsed = arriving_time - departing_time
     ActiveSupport::Duration.build(elapsed)
   end

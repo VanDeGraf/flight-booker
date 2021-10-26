@@ -1,0 +1,40 @@
+<div class="container bg-light shadow-sm rounded py-2 mt-2">
+  <h3 align="center">Booking №<%= @booking.id %></h3>
+  <div class="container border border-secondary py-2">
+    <h5>Flight</h5>
+    <span>
+      <i>Aircraft capacity: </i> <%= @booking.flight.capacity %>
+    </span><br>
+    <span>
+      <i>Code: </i> <%= @booking.flight.id %>
+    </span>
+  </div>
+  <div class="container border border-secondary py-2">
+    <h5>Airport</h5>
+    <span>
+      <i>From:</i> <%= @booking.flight.from_airport.name %>
+      [<strong><%= @booking.flight.from_airport.code %></strong>]
+    </span><br>
+    <span>
+      <i>To:</i> <%= @booking.flight.to_airport.name %>
+      [<strong><%= @booking.flight.to_airport.code %></strong>]
+    </span>
+  </div>
+  <div class="container border border-secondary py-2">
+    <h5>Dates</h5>
+    <span><i>Departing:</i> <%= @booking.flight.departing_time_local %></span><br>
+    <span><i>Arriving:</i> <%= @booking.flight.arriving_time_local %></span><br>
+    <span><i>Fly time:</i> <%= @booking.flight.travel_time.parts[:hours] %> hours</span><br>
+    <small><span> * Dates showed by airports local time</span></small>
+  </div>
+  <div class="container border border-secondary py-2">
+    <h5>Passengers</h5>
+    <ul class="list-group">
+      <% @booking.passengers.each do |p| %>
+        <li class="list-group-item">
+          <%= p.name %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

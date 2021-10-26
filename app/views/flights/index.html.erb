@@ -29,7 +29,7 @@
     <% if @flights.count.zero? %>
       <h5>Nothing :(</h5>
     <% else %>
-      <%= simple_form_for @search_params, url: root_path do |f| %>
+      <%= simple_form_for @search_params, url: new_booking_path, method: "get" do |f| %>
         <ul class="list-group">
           <%= f.collection_radio_buttons :flights, @search_params.flights, :id, :id do |b| %>
             <li class="list-group-item">
