@@ -1,0 +1,11 @@
+<div class="container bg-light shadow-sm rounded py-2">
+  <h3 align="center">Passengers</h3>
+  <ul class="list-group">
+    <% @passengers.each do |p| %>
+      <li class="list-group-item d-flex justify-content-around">
+        <span><%= p.name %></span>
+        <span><%= p.email %></span>
+      </li>
+    <% end %>
+  </ul>
+</div>

@@ -1,16 +1,40 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>FlightBooker</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>FlightBooker</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+  <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
 
-  <body>
-    <%= yield %>
-  </body>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm mb-3">
+  <div class="container-fluid">
+    <%= link_to 'Flight Booking', root_path, class: "navbar-brand" %>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <%= link_to 'Flights', flights_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Last Bookings', bookings_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Passengers', passengers_path, class: "nav-link" %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<% flash.each do |type, msg| %>
+  <% type = type == 'alert' ? 'warning' : 'success' %>
+  <div class="alert alert-<%= type %>">
+    <%= msg %>
+  </div>
+<% end %>
+<%= yield %>
+</body>
 </html>

@@ -1,0 +1,10 @@
+<div class="container bg-light shadow-sm rounded py-2">
+  <h3 align="center">Bookings</h3>
+  <ul class="list-group">
+    <% @bookings.each do |b| %>
+      <a class="list-group-item list-group-item-action" href="<%= booking_path(b) %>">
+        <span>Booking code: <%= b.id %></span>
+      </a>
+    <% end %>
+  </ul>
+</div>
