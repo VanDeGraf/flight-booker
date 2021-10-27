@@ -28,4 +28,10 @@ class Flight < ApplicationRecord
   def departing_date_formatted
     departing_time.strftime("%d/%m/%Y")
   end
+
+  def to_s
+    dt = "[#{departing_time_local.strftime("%H:%M") }]"
+    at = "[#{arriving_time_local.strftime("%H:%M") }]"
+    "#{from_airport.code} #{dt} --{ #{travel_time.parts[:hours]} h }--> #{to_airport.code} #{at}"
+  end
 end

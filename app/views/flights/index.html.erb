@@ -1,43 +1,58 @@
-<div class="container bg-light shadow-sm rounded m-5 py-2">
+<div class="container bg-light shadow-sm rounded py-2">
+  <h3 align="center">Flight Search</h3>
   <%= simple_form_for @search_params, url: root_path, method: "get" do |f| %>
-    <span>From:</span>
-    <%= select_tag "from_airport",
-                   options_from_collection_for_select(Airport.all, :id, :name,
-                                                      selected: @search_params.from_airport_id) %>
-    <span>To:</span>
-    <%= select_tag "to_airport",
-                   options_from_collection_for_select(Airport.all, :id, :name,
-                                                      selected: @search_params.to_airport_id) %>
-    <br>
-    <span>Passengers:</span>
-    <%= select_tag "passengers", options_for_select([1, 2, 3, 4], @search_params.passengers) %>
-    <br>
-    <span>Date:</span>
-    <%= select_tag "departing_date",
-                   options_from_collection_for_select(Flight.departing_dates, :departing_date, :departing_date,
-                                                      selected: @search_params.departing_date_formatted) %>
-    <br>
-    <%= f.submit value: "Search" %>
+    <div class="container py-1">
+      <span>
+        From:
+        <%= select_tag "from_airport",
+                       options_from_collection_for_select(Airport.all, :id, :name,
+                                                          selected: @search_params.from_airport_id) %>
+      </span>
+      <span>
+        To:
+        <%= select_tag "to_airport",
+                       options_from_collection_for_select(Airport.all, :id, :name,
+                                                          selected: @search_params.to_airport_id) %>
+      </span>
+    </div>
+    <div class="container py-1">
+      <span>Date:</span>
+      <%= select_tag "departing_date",
+                     options_from_collection_for_select(Flight.departing_dates, :departing_date, :departing_date,
+                                                        selected: @search_params.departing_date_formatted) %>
+    </div>
+    <div class="container py-1">
+      <span>Passengers:</span>
+      <%= select_tag "passengers", options_for_select([1, 2, 3, 4], @search_params.passengers) %>
+    </div>
+    <div class="container py-1 mt-1">
+      <%= f.submit value: "Search", class: "btn btn-outline-primary" %>
+    </div>
   <% end %>
 </div>
 
 
 
 <% unless @flights.nil? %>
-  <div class="container bg-light shadow-sm rounded m-5 py-2">
+  <div class="container bg-light shadow-sm rounded py-2 mt-3">
     <h3 align="center">Founded</h3>
     <% if @flights.count.zero? %>
-      <h5>Nothing :(</h5>
+      <div class="alert alert-dark">
+        No results
+      </div>
     <% else %>
       <%= simple_form_for @search_params, url: new_booking_path, method: "get" do |f| %>
-        <ul class="list-group">
-          <%= f.collection_radio_buttons :flights, @search_params.flights, :id, :id do |b| %>
+        <ul class="list-group rounded">
+          <%= f.collection_radio_buttons :flights, @search_params.flights, :id, :to_s do |b| %>
             <li class="list-group-item">
-              <%= b.label(:"data-value" => b.value) { b.radio_button + b.text.to_s } %>
+              <%= b.label(:"data-value" => b.value) { b.radio_button(class: "mx-2") + b.text } %>
             </li>
           <% end %>
           <%= f.input :passengers, as: :hidden %>
-          <%= f.submit value: "Booking on this date" %>
+          <div class="container mx-0 px-0 mt-3">
+            <%= f.submit value: "Booking on this date", class: "btn btn-outline-primary" %>
+          </div>
+
         </ul>
       <% end %>
     <% end %>

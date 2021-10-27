@@ -1,44 +1,63 @@
-<div class="container bg-light shadow-sm rounded py-2 mt-2">
-  <h3 align="center">Booking</h3>
-  <div class="container border border-secondary py-2">
-    <h5>Flight</h5>
-    <span>
+<%= simple_form_for @booking do |f| %>
+  <div class="container bg-light shadow-sm rounded py-2 mt-2">
+    <h3 align="center">Booking</h3>
+    <div class="container border border-secondary py-2">
+      <h5>Flight</h5>
+      <span>
       <i>Aircraft capacity: </i> <%= @flight.capacity %>
     </span><br>
-    <span>
+      <span>
       <i>Code: </i> <%= @flight.id %>
     </span>
-  </div>
-  <div class="container border border-secondary py-2">
-    <h5>Airport</h5>
-    <span>
+    </div>
+    <div class="container border border-secondary py-2">
+      <h5>Airport</h5>
+      <span>
       <i>From:</i> <%= @flight.from_airport.name %>
-      [<strong><%= @flight.from_airport.code %></strong>]
+        [<strong><%= @flight.from_airport.code %></strong>]
     </span><br>
-    <span>
+      <span>
       <i>To:</i> <%= @flight.to_airport.name %>
-      [<strong><%= @flight.to_airport.code %></strong>]
+        [<strong><%= @flight.to_airport.code %></strong>]
     </span>
-  </div>
-  <div class="container border border-secondary py-2">
-    <h5>Dates</h5>
-    <span><i>Departing:</i> <%= @flight.departing_time_local %></span><br>
-    <span><i>Arriving:</i> <%= @flight.arriving_time_local %></span><br>
-    <span><i>Fly time:</i> <%= @flight.travel_time.parts[:hours] %> hours</span><br>
-    <small><span> * Dates showed by airports local time</span></small>
-  </div>
-  <div class="container border border-secondary py-2">
-    <h5>Passengers</h5>
-    <%= simple_form_for @booking do |f| %>
+    </div>
+    <div class="container border border-secondary py-2">
+      <h5>Dates</h5>
+      <span><i>Departing:</i> <%= @flight.departing_time_local %></span><br>
+      <span><i>Arriving:</i> <%= @flight.arriving_time_local %></span><br>
+      <span><i>Fly time:</i> <%= @flight.travel_time.parts[:hours] %> hours</span><br>
+      <small><span> * Dates showed by airports local time</span></small>
+    </div>
+
+    <div class="container border border-secondary py-2">
+      <h5>Passengers</h5>
+
       <%= f.hidden_field :flight_id, value: @flight.id %>
       <%= f.simple_fields_for :passengers do |pf| %>
-        <div class="container d-flex justify-content-start">
-          <%= pf.input :name %>
-          <%= pf.input :email, as: :email %>
+        <div class="container d-flex justify-content-start gap-3">
+          <%= pf.input :name, required: true, label: false do %>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  Name
+                </div>
+              </div>
+              <%= pf.input_field :name, class: "form-control" %>
+            </div>
+          <% end %>
+          <%= pf.input :email, required: true, label: false do %>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  E-mail
+                </div>
+              </div>
+              <%= pf.input_field :email, class: "form-control" %>
+            </div>
+          <% end %>
         </div>
       <% end %>
-      <%= f.submit %>
-    <% end %>
+    </div>
+    <%= f.submit value: "Booking", class: "btn btn-primary my-2" %>
   </div>
-
-</div>
+<% end %>

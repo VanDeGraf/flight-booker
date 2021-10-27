@@ -31,8 +31,9 @@
     <h5>Passengers</h5>
     <ul class="list-group">
       <% @booking.passengers.each do |p| %>
-        <li class="list-group-item">
-          <%= p.name %>
+        <li class="list-group-item d-flex justify-content-around">
+          <span><%= p.name %></span>
+          <span><%= p.email %></span>
         </li>
       <% end %>
     </ul>

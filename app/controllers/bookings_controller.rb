@@ -30,6 +30,6 @@ class BookingsController < ApplicationController
   end
 
   def index
-    @bookings = Booking.all.order(:created_at)
+    @bookings = Booking.all.order(:created_at).reverse_order
   end
 end
